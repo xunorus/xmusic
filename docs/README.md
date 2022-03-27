@@ -1,10 +1,8 @@
 #  ![OPPT ONE](logoxmusic.png)
 
-# what is OPPT-ONE?
-in 2012, thanks to the work carried out by the [OPPT](https://i-uv.com/oppt-absolute/) (One People Public Trust), all the governments of the world were seized. From that moment **Iure** ceased to exist.
-<!-- , and they exist **de Facto** and only thanks to our consent. -->
-
-This tool empowers living human beings around the world with web3 decentraliced, resilient amd distributed tools to save, validate and publicly display each one's documents that vindicates self-determined people as free living human beings.
+# what is XMUSIC?
+having a proof of ownership is a fundamental step towards having your music in a web3 ecosystem.
+XMUSIC provides a little utility to allow musicians integrate their music into the web3 ecosystem by having a verifiable proof of ownership.
 
  <!-- paradigm shifting experience of each one. -->
 
@@ -13,16 +11,7 @@ This tool empowers living human beings around the world with web3 decentraliced,
 
 
 # How it works
-0. Organice and prepare your documents
-1. Upload your documents (original and courtesy transalations) to IPFS
-2. Mint them 
-3. Get the QR code of the your NFT
-4. Include them in your universal pass or show them to whoever you wish and you see fit.
-
-
-# WHAT IS OPPT ONE PEOPLE´S PUBLIC TRUST
-It is a legal action based on International Commercial Law which has generated documents to be applied legally in any of the countries registered as private corporations. 
- 
-# Links
-- [https://n-prdgm.com/]
-- [https://homovivo.net/]
+0. Create a key with a random number with Chainlink
+1. Upload your encrypted tracks to IPFS
+2. Mint 
+3. Now you have a verifiable proof of ownership and its LENS compatible!
