@@ -1,4 +1,4 @@
-#  ![OPPT ONE](LOGO-YO-SOY-OPPT.png)
+#  ![OPPT ONE](logoxmusic.png)
 
 # what is OPPT-ONE?
 in 2012, thanks to the work carried out by the [OPPT](https://i-uv.com/oppt-absolute/) (One People Public Trust), all the governments of the world were seized. From that moment **Iure** ceased to exist.

@@ -340,8 +340,8 @@ $(function() {
   <body>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#"> <img src="img/LOGO-YO-SOY-OPPT.png" width="50" height="50" alt=""></a>
-        <h2>X MUSIC  </h2>
+        <a class="navbar-brand" href="#"> <img src="img/logoxmusic.png" width="50" height="50" alt=""></a>
+        <h2>XMUSIC  </h2>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -426,7 +426,7 @@ $(function() {
             <i class="fa-solid fa-key-skeleton"></i>Display your Random Number</button> 
 
 
-    <h3>1 -Add documents
+    <h3>1 -Add your new tracks
 <button type="button" class="btn btn-outline-primary  "  data-toggle="modal" data-target="#exampleModalCenter" ><i class="fa-solid fa-plus" aria-hidden="true"></i> Add</button>
 
 	</h3>
@@ -3283,7 +3283,8 @@ function randomData() {
         title: `<label>${title}</label>`,
         cid:` ${cid}`,
         actions: `
-	<button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();copyItem('${cid}')"><i class="fas fa-clipboard" aria-hidden="true"></i></button> 
+        <button type="button" class="trackplayer btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();playItem('${link}',(this))" ><i class="fas fa-play" aria-hidden="true"></i></button> 
+        <button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();copyItem('${cid}')"><i class="fas fa-clipboard" aria-hidden="true"></i></button> 
 	<button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();deleteItem((this.parentElement))"><i class="fas fa-trash" aria-hidden="true"></i></button>`
       })
     // }
@@ -3325,6 +3326,7 @@ function add2Table(x) {
         title: `<label>${t}</label>`,
         cid:` ${c}`,
         actions: `
+        <button type="button" class="trackplayer btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();playItem('',(this))" ><i class="fas fa-play" aria-hidden="true"></i></button> 
 	<button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();copyItem('${c}')"><i class="fas fa-clipboard" aria-hidden="true"></i></button> 
 	<button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();deleteItem((this.parentElement))"><i class="fas fa-trash" aria-hidden="true"></i></button>`
       })
@@ -4055,7 +4057,7 @@ localStorage.setItem('image', nftFilePath);
    // .................................
 
 //    document.getElementById('nftDistroImg').src = 'docs/oppt_logo.jpg';
-   document.getElementById('nftDistroImg').src = 'docs/LOGO-YO-SOY-OPPT.png';
+   document.getElementById('nftDistroImg').src = 'docs/logoxmusic.png';
    
     </script>
   </body>
