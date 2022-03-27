@@ -1,0 +1,4062 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+
+	<link rel="stylesheet" href="https://unpkg.com/flowbite@latest/dist/flowbite.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/1f8bc9fc91.js" crossorigin="anonymous"></script>
+	<link href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" rel="stylesheet">
+	<link href="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/reorder-rows/bootstrap-table-reorder-rows.css" rel="stylesheet">
+	
+	<script src="https://cdn.jsdelivr.net/npm/tablednd@1.0.5/dist/jquery.tablednd.min.js"></script>
+	<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+	<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/reorder-rows/bootstrap-table-reorder-rows.min.js"></script>
+	<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/print/bootstrap-table-print.min.js"></script>
+	
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.all.min.js"></script>
+<script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+<script src="js/FileSaver.min.js"></script>
+ 
+	
+	<!-- <link rel="stylesheet" href="xplayer.css" /> -->
+<style>
+  
+  :root {
+  --body-bg-color: #e5ecef;
+  --font-navbar-color: #007bff;
+}
+progress-bar {
+    -webkit-transition: width 2.5s ease;
+    transition: width 2.5s ease;
+}
+#submit_button{
+  top:30px
+}
+
+body {
+  /* font-family: "Cabin", sans-serif; */
+}
+
+.historial {
+  display: block;
+  width: 400px;
+  margin: 100px auto 0;
+  
+  background: #fff;
+  color: #333;
+  font-family: "Cabin", sans-serif;
+}
+
+span#add-task{
+  padding: 8px;
+    line-height: 37px;
+
+    background: none;
+  border: 0px;
+  color: #858585;
+  font-size: 15px;
+  width: 60px;
+  margin: 10px 0 0;
+}
+ 
+h3,
+label[for=new-task] {
+  color: #333;
+  font-weight: 700;
+  font-size: 15px;
+  border-bottom: 2px solid #333;
+  padding: 30px 0 10px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+input[type=text] {
+  margin: 0;
+  font-size: 18px;
+  line-height: 18px;
+  height: 18px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 6px;
+  font-family: "Cabin", sans-serif;
+  color: #858585;
+}
+
+input[type=text]:focus {
+  color: #333;
+}
+
+/* New Task */
+label[for=new-task] {
+  display: block;
+  margin: 0 0 20px;
+  
+}
+
+input#new-task {
+  float: left;
+  width: 318px;
+  margin: 10px 0 0;
+  padding: 18px;
+  margin: 0;
+}
+
+p > button:hover {
+  color: #0fc57c;
+}
+
+
+/* Completed */
+/* #completed-tasks label {
+  text-decoration: line-through;
+  color: #858585;
+} */
+
+/* Edit Task */
+/* ul li input[type=text] { */
+/* tbody tr */
+ td input[type=text] {
+  display: none;
+}
+
+ td.editMode input[type=text] {
+  display: block;
+}
+
+ td.editMode label {
+  display: none;
+}
+  
+span.cid{
+  font-size: 13px;
+  padding: 0 0 0 11px
+} 
+
+
+/* BUTON CUSTOM INPUT */
+#fileToUpload{
+  padding: 18px;
+}
+
+
+@media print {
+    .key, .ecid {
+        display: block;
+    }
+
+	
+}
+
+
+/* ------------------------------------------------------- */
+  /* UPLOADER */
+  #uploader{
+    width: 100%;
+    padding: 25px;
+  }
+
+  #titleanddesc { grid-area: info;   }
+#textCreateItemName { grid-area: title; }
+#txtCreatItemDescription { grid-area: desc; }
+label#labelfileCreateItemFile { grid-area: img; cursor: pointer; }
+.img { grid-area: img; }
+.info { grid-area: info; }
+  #createItem {
+    display: grid;
+    grid-template-areas:
+        "info info img";
+    border: 3px solid var(--c3);
+    grid-gap: 1rem;
+    padding: 1em 0;
+    align-items: center;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr ;
+    /* grid-template-rows: 1fr 130px; */
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 32px 0 0 32px;
+    }
+    @media only screen and (max-width: 700px) {
+        #createItem {
+            grid-template-areas:
+            "info info img img"
+        }
+    }
+
+  img#nftDistroImg {
+    height: auto!important;
+}
+  @media only screen and (max-width: 800px) {
+    img#nftDistroImg {
+     
+    }
+}
+
+@media only screen and (max-width: 580px) {
+  label#labelfileCreateItemFile {
+      display: flex;
+      justify-content: center;
+  }
+
+  #NFTPrice {
+      width: 100%!important ;
+  }
+
+  #createItem {
+      display: grid;
+      grid-template-areas:
+          " img img"
+          "info info"
+          ". price";
+      grid-template-columns: repeat(2, 1fr);
+
+  }
+
+  #titleanddesc {
+      grid-area: info;
+      /* max-width: 90vw;
+      line-height: 2rem; */
+  }
+
+  ul#myUL {
+      grid-template-columns: 1fr;
+      /* width: 60vw; */
+  }
+
+  #myUL li {
+      padding: 1rem;
+  }
+
+  #myUL pre {
+      width: 97%
+  }
+}
+
+
+
+/* dropdown */
+#currencySelect{
+
+}
+
+
+
+
+/* ------------------------------- */
+
+
+/* INPUT */
+.form__group {
+	position: relative;
+	padding: 15px 0 0;
+	margin-top: 10px;
+	/* width: 50%; */
+  }
+  
+  .form__field {
+	/* font-family: inherit;
+	width: 100%;
+	border: 0;
+	border-bottom: 2px solid #9b9b9b;
+	outline: 0;
+	font-size: 1.3rem;
+	color: #fff;
+	padding: 7px 0;
+	background: transparent;
+	transition: border-color 0.2s; */
+
+    /* width: 100%; */
+    border: 0;
+    border-bottom: 2px solid #9b9b9b;
+    outline: 0;
+    /* font-size: 1.3rem; */
+    /* color: #fff; */
+    /* padding: 7px 0; */
+    /* background: transparent; */
+    transition: border-color 0.2s;
+  }
+  .form__field::placeholder {
+	color: transparent;
+  }
+  .form__field:placeholder-shown ~ .form__label {
+	/* font-size: 1.3rem; */
+	cursor: text;
+	/* top: 20px; */
+  }
+  
+  .form__label {
+	position: absolute;
+	top: 0;
+	display: block;
+	transition: 0.2s;
+	font-size: 1rem;
+	/* color: var(--c0); */
+  }
+  
+  .form__field:focus {
+	/* padding-bottom: 6px;
+	font-weight: 700; */
+	border-width: 3px;
+	/* border-image: linear-gradient(to right, #11998e, #38ef7d); */
+	border-image: linear-gradient(to right, var(--c1), var(--c2));
+	border-image-slice: 1;
+  }
+  .form__field:focus ~ .form__label {
+	position: absolute;
+	top: 0;
+	display: block;
+	transition: 0.2s;
+	font-size: 1rem;
+	/* color:  var(--c1); */
+	font-weight: 700;
+  }
+
+  .selectContract{padding:2em 0}
+
+
+/* FIXES */
+
+</style>	
+
+
+
+
+<script>
+$(function() {
+    $('#table').bootstrapTable()
+ 
+  })
+
+</script>
+</head>
+  <body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#"> <img src="img/LOGO-YO-SOY-OPPT.png" width="50" height="50" alt=""></a>
+        <h2>X MUSIC  </h2>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+        
+            <select class="select-css" id="langswitch">
+              <option value="en">en</option>
+              <option value="fr">fr</option>
+              <option value="es">es</option>
+            </select>
+       
+          </ul>
+          <ul id="logg" class="nav navbar-nav navbar-right">
+          </ul>
+        
+        </div>
+      </nav>
+      
+      <div id="headMessages"> </div>
+
+
+      <div class="container">
+
+        
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"  data-translate="title" id="exampleModalCenterTitle">Upload to IPFS</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div id="headModal"></div>
+
+        <!-- <label for="new-task">Add Documents</label> -->
+       
+  
+        <div class="input-group">
+          <label class="input-group-btn">
+              <span class="btn btn-primary">
+                  Browse  
+                  <input type="file" style="display: none;" name="Upload" class="form-control" accept ="application/mp3" id="input_image"   >
+              </span>
+          </label>
+          <input type="text" id="fileToUpload" class="form-control" readonly>
+      </div>
+
+      <input type="text" class="form-control " id="new-task" placeholder="Title" aria-describedby="inputGroupPrepend3" required>
+      
+      
+      <div  id="success_message" class="alert alert-success" role="alert" style="display: none;"></div>
+      
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary  " data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-outline-primary  " id="submit_button" data-translate="upload" >Upload</button>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- fin MODAL -->
+
+ 
+
+
+<div id="messages"> </div>
+
+
+<div id="historial">
+    <button type="button" class="btn btn-outline-primary   px-3" onclick="event.stopPropagation();getRandomNumber()">
+        <i class="fa-solid fa-key-skeleton"></i>Get a Random Number</button> 
+
+
+        <button type="button" class="btn btn-outline-primary   px-3" onclick="event.stopPropagation();displayRandomNumber()">
+            <i class="fa-solid fa-key-skeleton"></i>Display your Random Number</button> 
+
+
+    <h3>1 -Add documents
+<button type="button" class="btn btn-outline-primary  "  data-toggle="modal" data-target="#exampleModalCenter" ><i class="fa-solid fa-plus" aria-hidden="true"></i> Add</button>
+
+	</h3>
+
+	                                       
+	<div class="table-responsive">          
+		<table id="table" class="table"
+  data-pagination="true"
+  data-search="true"
+  data-reorderable-rows="true"
+  data-show-print="true"
+  
+  >
+ 
+  <thead>
+
+
+			
+    <tr>
+	    <th data-field="title"  >Title</th>
+			  <th data-field="cid" >CID</th>
+			  <!-- <th data-field="ecid" >encrypted CID</th> -->
+			  <!-- <th data-field="key" >key</th> -->
+			  <th  data-print-ignore="true" data-field="actions" >Actions</th>
+			</tr>
+		  </thead>
+		
+		  <tbody id="uploaded-documents"></tbody>
+		
+		</table>
+		</div>
+	  </div>
+
+
+	  <nav aria-label="navigation" class="d-flex justify-content-between">
+	
+		<ul class="pagination">
+	  
+		<li class="" title="import your documents to a file">
+			<button type="button" class="btn btn-outline-primary  px-3" onclick="event.stopPropagation();loadJson()"><i class="fas fa-cloud-upload" aria-hidden="true"></i></button> 
+	  </li>
+	  <li class="" title="export your documents to a file">
+		<button type="button" class="btn btn-outline-primary   px-3" onclick="event.stopPropagation();saveJson()"><i class="fas fa-cloud-download" aria-hidden="true"></i></button> 
+  </li>
+	  </ul>
+	  
+	  </nav>
+
+
+    <h3>2- Name </h3>
+	  
+	<!-- UPLOADER -->
+    <div id="createItem">
+      
+  <!-- IMAGE -->
+  <label for="fileCreateItemFile" id="labelfileCreateItemFile">
+            <input name="fileCreateItemFile" id="fileCreateItemFile" type="file" style="display:none"
+              accept="image/*" />
+            <img id="nftDistroImg" src="testimgs/512x512.svg">
+  </label>
+
+  <div id="titleanddesc">
+      <!-- TITLE -->
+      <div class="form-group">
+        <label for="usr" >IAM-na-mmddaaaa</label>
+        <input id="textCreateItemName" type="text" class="form-control"  >
+      </div>
+    
+
+          <!-- DESCRIPTION -->
+    <!-- <div id="txtCreatItemDescription"  class="form-group">
+      <label   for="textArea"  data-translate="enterDescription" >Description:</label>
+      <textarea class="form-control"  cols="30" rows="5" class="form__field" name='textArea'
+       rows="5" id="descriptionTextarea"></textarea>
+    </div> -->
+
+  </div>
+
+          
+</div>
+
+	  <h3>3- Mint</h3>
+<!-- rinkeby marketplace 0x41854405916B936Eb079F9F83d8077d67b72bCC9 -->
+<!-- atachedNFT rinkeby 0x7654483343Af601597bAF7e460072349eC1EfEfF -->
+	  <!-- 0xE8afBbb34c8Ab0BC728e364b44087f0009a22D9C attached to marketplace(0x11C1ad72d18CC93528424DE8bF45219eADd314fE) -->
+    <div class="selectContract">
+
+	  Token Contract Address: <select id="tokenContractAddress">
+		<option value="0x4,0x7654483343Af601597bAF7e460072349eC1EfEfF,atached2marketrinkebyABI">Rinkeby, attached to marketplace</option>
+		<option value="0x13881,0xE8afBbb34c8Ab0BC728e364b44087f0009a22D9C,attachedToMarketABI">NFTAttached2Marketplace.sol (Mumbai, attached to marketplace)</option>
+		<option value="0x13881,0xF32bFdcB4b133ACC3E62650049Cf15a95d0ef568,distroMintedMumbaiABi">721v3.sol (Mumbai with distroMinted event)</option>
+		<option value="0x2a,0xD5AE9ad9b6EBDa4Cf094E498521a8c437d0988C1,distroMintedABi">721v3.sol (kovan with distroMinted event)</option>
+		<option value="0x2a,0xf2b1dC371eDC20D4A13821E9dC46ae6facAa1632,nftMintedABI">(kovan, NFTv4)</option>
+	</select><br />
+	
+</div>
+	
+	
+	
+	  <div class="form_element">
+		<button class="btn btn-primary btn-lg btn-block" id="btnUpdate">Mint</button>
+	
+	</div>
+	<div  id="success_mint" class="alert alert-success" role="alert" style="display: none;"></div>
+
+  </div>	
+
+
+
+
+
+		  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+		  <!-- <script src="js/texteffects.js"></script> -->
+	<!-- <script src="js/player9.js"></script> -->
+
+
+
+    <script>
+
+  /*********************************************************************************************
+  .) sweetalert2
+  **********************************************************************************************/  
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-right",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: toast => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    }
+  });
+  
+  const fixedToast = swal.mixin({
+    toast: true,
+    position: "top-right",
+    showConfirmButton: false,
+    showConfirmButton: true
+  });
+
+  const fixedToastLoader = swal.mixin({
+    toast: true,
+    position: "top-right",
+    showConfirmButton: false,
+    showConfirmButton: false
+  });
+
+
+var sweet_loader = '<div class="sweet_loader"><svg viewBox="0 0 140 140" ><g class="outline"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="rgba(0,0,0,0.1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="circle"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="#71BBFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="200" stroke-dasharray="300"></path></g></svg></div>';
+
+/*********************************************************************************************
+  .) MORALIS (for loggin and other quickfixes)
+  **********************************************************************************************/
+  const serverUrl = "https://4awmj3mczjmy.usemoralis.com:2053/server";
+ const appId = "MGGUY01w6PMlQRQeXarH98KWo9PDLHUNI3eH5ZOx";
+ const desiredChainId = 0x2a; //KOVAN
+// const TOKEN_ADDRESS =  "0xE52AC2aA17077bf595D53dB916a926640AAD39f1";
+// const token_address = TOKEN_ADDRESS.toLowerCase();
+
+
+VRFv2ABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint64",
+				"name": "subscriptionId",
+				"type": "uint64"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "have",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "want",
+				"type": "address"
+			}
+		],
+		"name": "OnlyCoordinatorCanFulfill",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "requestId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "randomWords",
+				"type": "uint256[]"
+			}
+		],
+		"name": "rawFulfillRandomWords",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "requestRandomWords",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "s_randomWords",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "s_requestId",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+
+atached2marketrinkebyABI =[
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "marketplaceAddress",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "approved",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "ApprovalForAll",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "tokenURI",
+				"type": "string"
+			}
+		],
+		"name": "createToken",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "setApprovalForAll",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getApproved",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			}
+		],
+		"name": "isApprovedForAll",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerOf",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes4",
+				"name": "interfaceId",
+				"type": "bytes4"
+			}
+		],
+		"name": "supportsInterface",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenURI",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+attachedToMarketABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "marketplaceAddress",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "approved",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "ApprovalForAll",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "tokenURI",
+				"type": "string"
+			}
+		],
+		"name": "createToken",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getApproved",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			}
+		],
+		"name": "isApprovedForAll",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerOf",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "setApprovalForAll",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes4",
+				"name": "interfaceId",
+				"type": "bytes4"
+			}
+		],
+		"name": "supportsInterface",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenURI",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
+
+// attached
+
+distroMintedMumbaiABi = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "approved",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "ApprovalForAll",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "burn",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "uri",
+				"type": "string"
+			}
+		],
+		"name": "createItem",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "uri",
+				"type": "string"
+			}
+		],
+		"name": "distroMinted",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "setApprovalForAll",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getApproved",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			}
+		],
+		"name": "isApprovedForAll",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "Items",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "uri",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerOf",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes4",
+				"name": "interfaceId",
+				"type": "bytes4"
+			}
+		],
+		"name": "supportsInterface",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenURI",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+
+
+distroMintedABi = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "approved",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "ApprovalForAll",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "uri",
+				"type": "string"
+			}
+		],
+		"name": "distroMinted",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "Items",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "uri",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "burn",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "uri",
+				"type": "string"
+			}
+		],
+		"name": "createItem",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getApproved",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			}
+		],
+		"name": "isApprovedForAll",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerOf",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "setApprovalForAll",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes4",
+				"name": "interfaceId",
+				"type": "bytes4"
+			}
+		],
+		"name": "supportsInterface",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenURI",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+
+nftMintedABI = [
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "approved",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "ApprovalForAll",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "uri",
+				"type": "string"
+			}
+		],
+		"name": "nftMinted",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "uri",
+				"type": "string"
+			}
+		],
+		"name": "createItem",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "setApprovalForAll",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "marketplaceAddress",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getApproved",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			}
+		],
+		"name": "isApprovedForAll",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "Items",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "uri",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerOf",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes4",
+				"name": "interfaceId",
+				"type": "bytes4"
+			}
+		],
+		"name": "supportsInterface",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenURI",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+ let userLoggedCard= `	 <div class="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4">
+			<div class="shrink-0">
+			  <img class="h-12 w-12" src="/testimgs/tabler-icon-user-check.svg" alt="ChitChat Logo">
+			</div>
+			<div>
+			  <div class="text-xl font-medium text-black">User is Loged!</div>
+			  <p class="text-slate-500">You have are logged</p>
+			</div>
+		  </div>`;
+ 
+let userNotLoggedCard= `<div class="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4">
+			<div class="shrink-0">
+			  <img class="h-12 w-12" src="/testimgs/tabler-icon-user-exclamation.svg" alt="ChitChat Logo">
+			</div>
+			<div>
+			  <div class="text-xl font-medium text-black">User is not Loged : (</div>
+			  <p class="text-slate-500">You have are logged</p>
+			</div>
+		  </div>`;
+ 
+ 
+
+
+  ///////////////////////////////////
+  // initApp
+  //////////////////////////////////
+
+  let init = async () => {
+
+      
+      try {
+    await Moralis.start({ serverUrl, appId });
+	}
+  
+	catch (error) {
+	alert(error.message);
+	}
+
+
+    try {
+    await Moralis.enableWeb3();
+
+  
+	}
+  
+	catch (error) {
+	// alert(error.message);
+    Swal.fire({
+        title: error.message,
+          imageUrl: 'testimgs/undraw_warning_cyit.svg',
+          imageWidth: 400,
+          imageHeight: 200,
+          imageAlt: 'Custom image',
+        
+      });
+	}
+
+
+user = await Moralis.User.current();
+
+
+if (!user) {
+console.log('there is no User...');
+let connectButton =`<button type="button" class="btn btn-outline-primary btn btn-elegant" onclick="event.stopPropagation();login()" ><i class="far fa-user pr-2" aria-hidden="true"></i>Connect</button>`;
+	document.getElementById('messages').innerHTML =userNotLoggedCard ;
+    document.getElementById('logg').innerHTML = connectButton ;
+  
+} else{
+
+let userAddress = user.get('ethAddress');
+var x = userAddress;
+var shortAddr = x.substring(0, 6) + "..."+ x.substring(38, 42);
+let userIsLoggedButton =`<button type="button" class="btn btn-light " onclick="event.stopPropagation();logOut()" ><i class="fa-solid fa-user-check" aria-hidden="true"></i>  ${shortAddr}   <i class="fas fa-sign-out-alt" aria-hidden="true"  ></i></button>`;
+    document.getElementById('messages').innerHTML = '' ;
+    document.getElementById('logg').innerHTML = userIsLoggedButton ;
+}
+
+
+Moralis.initPlugins();
+    console.log(Moralis.Plugins);
+
+};
+
+
+init();
+
+
+
+
+async function login() {
+  console.log('trying to login user...')
+  
+  
+	let user = Moralis.User.current();
+	if (!user) {
+    try {
+      user = await Moralis.Web3.authenticate({signingMessage:dictionary[globalLang]["signThisToLogin"]});
+
+  } catch (error) {
+    const code = error.code.toString();
+    const message = error.message;
+    Toast.fire(code, message, "error");
+    console.log("error: ",error);
+  }
+    
+	}
+	console.log("logged in user:", user);
+init();
+
+}
+
+async function logOut() {
+  console.log('logout user...')
+	
+  await Moralis.User.logOut();
+	console.log("logged out");
+init();
+
+}
+
+ 
+
+
+/*********************************************************************************************
+.) DICTIONARY
+**********************************************************************************************/
+var userLang = navigator.language || navigator.userLanguage;
+var lang = navigator.language || navigator.userLanguage; //no ?s necessary
+console.log("The browser 's LANGUAJE is: " + lang);
+
+const langs = document.querySelectorAll("[lang]");
+const langen = document.querySelectorAll('[lang="en"]');
+const langfr = document.querySelectorAll('[lang="fr"]');
+const langes = document.querySelectorAll('[lang="es"]');
+var dictionary = {
+  en: {
+    title: "Upload to IPFS",
+    upload: "Upload",
+    adddoc: "Add",
+    selPDFfirst: "you have to select a PDF first!",
+    setTitlefirst:" Give this upload a title first...",
+    bravo: "Bravo!",
+    uploadtoipfs: "upload your documents to InterPlanetary File System!",
+    desc:'Built on top of the InterPlanetary File System (IPFS), a distributed and content-addressed file system designed to be reliable, resilient and future-proof.',
+    signThisToLogin: "Welcome to PLAYMINT! Sign this message to prove you have access to this wallet and we'll log you in. This won't cost you any Ether.",
+    back:'back',
+    nft_name: "Title",
+    name:'name',
+    enterDescription:'Description',
+    pricePerItem: 'price',
+
+
+  },
+  fr: {
+    title: "Télécharger sur IPFS",
+    upload: "Télécharger",
+    adddoc: "Ajouter",
+    selPDFfirst: "vous devez d'abord sélectionner un PDF!",
+    setTitlefirst:" Donnez d'abord un titre à ce téléchargement...",
+    bravo: "Bravo!",
+    uploadtoipfs: "TÉLÉCHARGER tes fichiers PDF sur le système de fichiers interplanétaire!",
+    desc:`Construit sur le système de fichiers interplanétaire (IPFS), un système de fichiers contenu-adressable et distribué conçu pour être fiable, résilient et à l'épreuve du temps.`,
+    signThisToLogin: "Bienvenue sur PLAYMINT ! Signez ce message pour montrer que vous avez accès à votre clé privée pour vous connecter. Cela ne vous coûtera aucun Ether.",
+    back:'retour',
+    nft_name: "Titre",
+    name:'Nom',
+    enterDescription: "Description",
+    pricePerItem: "Prix",
+
+  },
+  es: {
+    title: "Sube tus documentos a IPFS",
+    upload: "Cargar documento",
+    adddoc: "Agregar",
+    selPDFfirst: "¡Tienes que seleccionar un PDF primero!",
+    setTitlefirst:" Dale un título a antes de subir el documento...",
+    bravo: "¡Bravo!",
+    uploadtoipfs: "¡Sube tus documentos al sistema de archivos interplanetario!",
+    desc:'Construido sobre el Sistema de archivos interplanetarios (IPFS), un sistema de archivos distribuido y dirigido por contenido diseñado para ser confiable, resistente a la censura y de prueba futura.',
+    signThisToLogin: "¡Bienvenido a PLAYMINT! Firme este mensaje para demostrar que tiene acceso a su llave privada para ingresar. Esto no le costará ningún Ether.",
+    back:'volver',
+    nft_name: "titulo",
+    name:'Nombre',
+    enterDescription:'Descripcion',
+    pricePerItem: 'precio',
+
+
+  }
+};
+
+
+function set_lang(dictionary) {
+
+  document.querySelectorAll("[data-translate]").forEach(function(element) {
+    if (element.nodeName === "INPUT" || element.nodeName === "TEXTAREA") {
+      // element.placeholder = dictionary[element.dataset.translate];
+      console.log('setlang found a Textarea');
+    } else {
+      element.innerHTML = dictionary[element.dataset.translate];
+    //   console.log('setlant didnt found a Textarea');  
+
+    }
+  });
+
+
+}
+
+function selectText(lang) {
+  switch (lang) {
+    case "en":
+      set_lang(dictionary.en);
+      globalLang = "en";
+      break;
+    case "fr":
+      set_lang(dictionary.fr);
+      globalLang = "fr";
+      break;
+    case "es":
+      set_lang(dictionary.es);
+      globalLang = "es";
+      break;
+    default:
+      set_lang(dictionary.en);
+      globalLang = "en";
+  }
+}
+
+let savedLang = localStorage.getItem("lang");
+if (savedLang) {
+  let element = document.querySelector(`option[value='${savedLang}']`);
+  element.selected = true;
+  selectText(savedLang);
+  console.log("lenguaje en localstorage: LANG " + savedLang);
+} else {
+  console.log("NO hay LANG GUARDADO, muestra default lang: en ");
+  set_lang(dictionary.en);
+  globalLang = "en";
+}
+
+// Swap languages when menu changes
+let langswitch = document.getElementById("langswitch");
+langswitch.onchange = function() {
+  var lang = this.value;
+  localStorage.setItem("lang", lang);
+  selectText(lang);
+};
+
+
+  
+   /*********************************************************************************************
+  .) SUBMIT PDF
+  **********************************************************************************************/
+
+// muestra texto en browse button
+  $(function() {
+$(document).on('change', ':file', function() {
+  var input = $(this),
+      numFiles = input.get(0).files ? input.get(0).files.length : 1,
+      label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+  input.trigger('fileselect', [numFiles, label]);
+});
+
+// We can watch for our custom `fileselect` event like this
+$(document).ready( function() {
+    $(':file').on('fileselect', function(event, numFiles, label) {
+
+        var input = $(this).parents('.input-group').find(':text'),
+            log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+        if( input.length ) {
+            input.val(log);
+        } else {
+            if( log ) Toast.fire( 'Img updated',log, "success");
+        }
+
+    });
+});
+});
+// FIN muestra texto en browse button
+ 
+
+ 
+
+
+
+uploadPDF = async pdf => {
+// let user;
+	if (!user) { 
+
+// let printLoginFirst = `    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+//                     <strong>Login </strong> First!
+//                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+//                       <span aria-hidden="true">&times;</span>
+//                     </button>
+//                   </div>`;
+// 	document.getElementById('headModal').innerHTML +=printLoginFirst ;
+    
+    login();
+
+  return
+ }
+ if (user) {
+	 console.log('user.id:' , user.id)
+	  userKey = user.id;
+ } 
+
+    if(!taskInput.value){
+      console.log('give this file a title first...');
+      taskInput.classList.add("is-invalid");
+ 
+  Toast.fire("", dictionary[globalLang]["setTitlefirst"], "info");
+  return
+    } else {
+        taskInput.classList.remove("is-invalid");
+      taskInput.classList.add("is-valid");
+
+    }
+    
+    if(!input_image.files[0] ){
+    console.log('you have to select a pdf first!')
+  Toast.fire("", dictionary[globalLang]["selPDFfirst"], "info");
+    return
+  }
+
+
+  // add loading
+console.log('start loading ...')
+  document.querySelector('#submit_button').innerHTML =` <span class="spinner-grow spinner-grow-sm"></span> Loading.. `;
+submit_button.disabled = true;
+
+
+	// upload progress as percentage
+  // $(".progress-bar").css('width', '90%');
+
+// upload progress event
+// request.upload.addEventListener('progress', function(e) {
+	// upload progress as percentage
+// 	let percent_completed = (e.loaded / e.total)*100;
+// 	console.log(percent_completed);
+// });
+ 
+
+// Save file input to IPFS
+
+const title = taskInput.value
+const data = input_image.files[0]
+let name = data.name.replace(/&/g, "Y");// quickfix
+const file = new Moralis.File(name, data)
+const added = await file.saveIPFS();
+const imageHash = file.hash();
+let ipfsLink =  "ipfs://" + imageHash;
+
+
+// encrypt CID with user's key
+let encryptionKey = userKey
+var encryptedCID = CryptoJS.AES.encrypt(imageHash, encryptionKey).toString(); 
+
+// save to server
+// file.save().then(function() {
+//   // The file has been saved to Moralis.
+// }, function(error) {
+//   // The file either could not be read, or could not be saved to Moralis.
+// });
+
+
+
+// success
+document.querySelector('#submit_button').classList.replace('btn-primary', 'btn-success');
+document.querySelector('#submit_button').innerHTML =` <i class="fa-solid fa-circle-check"></i>`;
+
+// hide file input and title input
+document.querySelector('#new-task').style.display= 'none';
+document.querySelector(".input-group").style.display= 'none';
+
+
+// SHOW OPERATION DETAILS;
+document.querySelector('#success_message').innerHTML =`File uploaded to IPFS: ${imageHash} .<br> <a target="_blank" href="${ipfsLink}">view FILE</a>`;
+document.querySelector('#success_message').style.display= 'block';
+
+addTask(title,imageHash);//agrega a la UI
+
+// ADDS TO LOCALSTORAGE
+let store = {
+    title: title,
+    cid: imageHash
+	// ecid:encryptedCID,
+    // key: encryptionKey
+}
+console.log('store:', store)
+  localStorage.setItem('last stored', JSON.stringify(store));
+
+  setTimeout(() => {
+	  updateArray();
+  }, 500);
+ 
+
+
+setTimeout(() => {
+document.getElementById("fileToUpload").value = "";
+taskInput.classList.remove("is-valid");
+
+// revert to normal loading
+document.querySelector('#submit_button').innerHTML =` Upload `;
+  submit_button.disabled = false;
+  document.querySelector('#submit_button').classList.replace('btn-success', 'btn-primary');
+  document.querySelector('#new-task').style.display= 'block';
+document.querySelector(".input-group").style.display= 'flex';
+  
+}, 10000);
+
+
+};
+
+document.getElementById('submit_button').onclick = uploadPDF;
+
+ 
+
+/*********************************************************************************************
+.) SAVE DOCS
+**********************************************************************************************/
+
+// SAVE DELETE EDIT
+var taskInput = document.getElementById("new-task"); //new-task
+var addButton = document.getElementsByTagName("button")[0]; //first button
+var addButton = document.getElementById("add-task"); //new-task/new doc
+var uploadedDocuments = document.getElementById("uploaded-documents"); //incomplete-tasks
+
+// -------------------------------
+// CARGA TODO
+let LoadTracks = JSON.parse(window.localStorage.getItem('historial'));
+if (LoadTracks) {
+console.log('LoadTracks 2745: ',LoadTracks)
+LoadTracks.forEach(add2Table);
+}
+
+let loadImg =window.localStorage.getItem('image')
+if (loadImg) {
+console.log('loadImg : ',loadImg)
+nftDistroImg.src = loadImg;
+}
+
+let loadTitle =window.localStorage.getItem('title')
+if (loadTitle) {
+	textCreateItemName.value = loadTitle
+}
+
+let loadDesc =window.localStorage.getItem('description')
+if (loadDesc) {
+	descriptionTextarea.value = loadDesc
+}
+
+// let loadPrice  = JSON.parse(window.localStorage.getItem('price'));
+
+// if (loadPrice) {
+// 	console.log('price : ',loadPrice.value, loadPrice.curr); // Has to do this from MUMBAI
+	 
+// 	NFTMintPrice.value =  loadPrice.value
+//    currencySelect.value =loadPrice.curr
+
+// setTimeout(() => {
+// 	priceConversor(loadPrice.value, loadPrice.curr); // Has to do this from MUMBAI
+// }, 1000);
+
+// }
+
+
+// -----------------------------------
+function priceSplitter(x) {
+	console.log('splitter:', x)
+
+	NFTMintPrice.value =  x.value
+   currencySelect.value =x.curr
+
+}
+
+function addCidToHistory(title, cid){
+ 
+	// let link = 'https://ipfs.io/ipfs/'+cid;
+	let link = 'https://ipfs.moralis.io:2053/ipfs/'+cid;
+// let link =  "ipfs://" + cid;
+
+// let element =`<tr>
+// 	<td class="d-print-block"><label>${title}</label>
+// <input class='d-print-none' type="text" autofocus> <button type="button" class="btn  px-3  d-print-none" onclick="event.stopPropagation();editItem(this)" ><i class="fas fa-edit" aria-hidden="true"></i></button>
+// </td>
+// <td> ${cid} </td>
+// <td> <p class="d-none d-print-block" style=""  >${ecid}</p><button type="button" class="d-print-none btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();showEcid('${ecid}')"><i class="fas fa-eye" aria-hidden="true"></i></button> </td>
+// <td> <p class="d-none d-print-block" style=""   >${key}</p><button type="button" class="d-print-none btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();showKey('${key}')"><i class="fas fa-key" aria-hidden="true"></i></button> </td>
+// <td>
+// 	<button type="button" class="trackplayer btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();playItem('${link}',(this))" ><i class="fas fa-play" aria-hidden="true"></i></button> 
+// 	<button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();copyItem('${cid}')"><i class="fas fa-clipboard" aria-hidden="true"></i></button> 
+// 	<button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();deleteItem((this.parentElement))"><i class="fas fa-trash" aria-hidden="true"></i></button>
+// 	</td>
+// 	</tr>`;
+	// <a class="btn btn-outline-info waves-effect px-3" data-song href="${link}"><i class="fas fa-play" aria-hidden="true"></i></a>
+	// <i class="fas fa-key"></i>
+// <td> <p class="d-none d-print-block"   >${key}</p><button type="button" class="d-print-none btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();showKey('${key}')"><i class="fas fa-key" aria-hidden="true"></i></button> </td>
+
+//   uploadedDocuments.innerHTML += element;
+var $table = $('#table')
+
+function randomData() {
+    // var startId = ~~(Math.random() * 100)
+    var rows = []
+
+    // for (var i = 0; i < 10; i++) {
+      rows.push({
+        title: `<label>${title}</label>`,
+        cid:` ${cid}`,
+        actions: `
+	<button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();copyItem('${cid}')"><i class="fas fa-clipboard" aria-hidden="true"></i></button> 
+	<button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();deleteItem((this.parentElement))"><i class="fas fa-trash" aria-hidden="true"></i></button>`
+      })
+    // }
+    return rows
+  }
+
+  $table.bootstrapTable('append', randomData())
+
+
+//   return element;
+}
+
+//Add a new task
+function addTask(title,cid) {
+  console.log("Add task...");
+  var element = addCidToHistory(title, cid);
+  taskInput.value = "";
+
+//   $table.bootstrapTable('append', randomData())
+
+}
+
+
+function add2Table(x) {
+	console.log('splitter:', x)
+	let t = x.title
+	let c = x.cid
+
+
+// $table.bootstrapTable('append', randomData(title,cid))
+// }
+// function randomData(t,c) {
+    // var startId = ~~(Math.random() * 100)
+	console.log(t,c)
+    var rows = []
+
+    // for (var i = 0; i < 10; i++) {
+      rows.push({
+        title: `<label>${t}</label>`,
+        cid:` ${c}`,
+        actions: `
+	<button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();copyItem('${c}')"><i class="fas fa-clipboard" aria-hidden="true"></i></button> 
+	<button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();deleteItem((this.parentElement))"><i class="fas fa-trash" aria-hidden="true"></i></button>`
+      })
+    // }
+	console.log(rows)
+
+	setTimeout(() => {
+		$('#table').bootstrapTable('append', rows)
+		
+	}, 300);
+
+    // return rows
+  }
+
+
+function cidSplitter(x) {
+	console.log('splitter:', x)
+	let title = x.title
+	let cid = x.cid
+// let ecid = x.ecid
+// let key = x.key
+// add2Table(title,cid);//agrega a la UI
+
+// addTask(title,cid);//agrega a la UI
+console.log(title,cid);//agrega a la UI
+}
+
+
+
+function deleteItem(obj) {
+
+  console.log("Delete ITEM...",obj);
+  var listItem = obj.parentNode;
+  var ul = listItem.parentNode;
+  ul.removeChild(listItem);
+updateArray();
+
+}
+
+function editItem(obj) {
+  console.log("Edit Item...",obj.parentNode);
+//   var listItem = obj.parentNode;
+  var listItem = obj.parentNode;
+  var editInput = listItem.querySelector("input[type=text]");
+  var label = listItem.querySelector("label");
+  var containsClass = listItem.classList.contains("editMode");
+  var editButton = listItem.getElementsByTagName("button")[0];
+
+  //If the class of the parent is .editMode
+  if (containsClass) {
+    label.innerText = editInput.value;
+    editButton.innerHTML = `<i class="fas fa-edit" aria-hidden="true">`;
+		setTimeout(() => {
+			updateArray();
+			console.log(editInput.value, ' saved!')
+		}, 1000);
+  } else {
+	  console.log(editInput, label)
+    //Switch to .editMode
+    editInput.value = label.innerText;
+	document.activeElement.blur();
+	setTimeout(() => {
+		editButton.innerHTML = `<i class="fas fa-save" aria-hidden="true">`;
+		editInput.focus();
+
+
+editInput.addEventListener('focusout', function (event) {
+	console.log(event.target, document.activeElement);
+	console.log('focusout');
+
+// if loses focus save it
+	    label.innerText = editInput.value;
+    editButton.innerHTML = `<i class="fas fa-edit" aria-hidden="true">`;
+		setTimeout(() => {
+			updateArray();
+			console.log(editInput.value, ' saved!')
+		}, 1000);
+});
+
+	}, 100);
+
+
+		// editButton.innerText = "Save";
+
+  }
+  listItem.classList.toggle("editMode");
+}
+ 
+
+// UPDATE ARRAY
+function updateArray(){
+  let docs = Array.from(uploadedDocuments.children);
+    let docNames = [];
+console.log(docs )
+
+    docs.forEach(function(docs, index) {
+// console.log("docs", docs, docs.children[0].text, docs.children[0].innerText )
+// console.log(docs.children[0].innerText,docs.children[1].innerText,docs.children[2].innerText, docs.children[3].innerText )
+    let t =  docs.children[0].innerText;
+      let c = docs.children[1].innerText;
+    //   let e = docs.children[2].textContent;
+    //   let k = docs.children[3].textContent;
+    //   let k = docs.children[2].innerText;
+	//   console.log('docs: ',t,c,e,k)
+      let doc = {
+      title: t,
+      cid: c,
+    //   ecid: e,
+	//   key: k
+      }
+    // console.log("docName INSIDEs= ", doc);
+      docNames.push(doc);
+    //   docNames.push([doc]);
+
+    });
+    console.log("docNames= ", docNames);
+    localStorage.setItem('historial', JSON.stringify(docNames));
+	// $('#table').bootstrapTable()
+
+}
+
+
+// COPY TO CLIPBOARD
+function copyItem(cid) {
+ //   let text = 'ipfs://'+cid;
+   let text = 'https://ipfs.io/ipfs/'+cid;
+
+    let textLink = `<a href="${text}">${text}</a>`;
+
+    if (window.clipboardData && window.clipboardData.setData) {
+        // Internet Explorer-specific code path to prevent textarea being shown while dialog is visible.
+      Toast.fire( 'Copied to Clipboard',textLink, "success");
+      return window.clipboardData.setData("Text", text);
+
+    }
+    else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        var textarea = document.createElement("textarea");
+        textarea.textContent = text;
+        textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in Microsoft Edge.
+        document.body.appendChild(textarea);
+        textarea.select();
+
+        try {
+Toast.fire( 'Copied to Clipboard',textLink, "success");
+
+            return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+        }
+        catch (ex) {
+            console.warn("Copy to clipboard failed.", ex);
+            return prompt("Copy to clipboard: Ctrl+C, Enter", text);
+        }
+        finally {
+            document.body.removeChild(textarea);
+        }
+    }
+}
+
+
+function saveJson(){
+  console.log('saving localstorage to file...')
+
+  let savedDocs = JSON.parse(window.localStorage.getItem('historial'));
+  var data = {
+    key: 'value'
+};
+var fileName = 'opptone.json';
+
+// Create a blob of the data
+var fileToSave = new Blob([JSON.stringify(savedDocs)], {
+    type: 'application/json'
+});
+
+// Save the file
+saveAs(fileToSave, fileName);
+
+}
+
+
+
+function loadJson(ev){
+	console.log('loading file to localstorage...')
+  var el = window._protected_reference = document.createElement("INPUT");
+  el.type = "file";
+  el.accept = "json/*";
+  el.addEventListener('change', function(ev) {
+    if (el.files.length) {
+		document.getElementById('uploaded-documents').innerHTML  ='';
+      let file = URL.createObjectURL(el.files[0]);
+	fetch(file)
+  .then(response => response.json())
+  .then(json => {
+	  console.log(json)
+	  console.log(JSON.stringify(json))
+
+	  let savedDocs = json
+	  savedDocs.forEach(add2Table);
+	  setTimeout(function() { 
+		// savedDocs.forEach(cidSplitter);
+
+		//   savedDocs.forEach(cidSplitter);
+	updateArray();
+
+    el = window._protected_reference = undefined;
+		}, 300);
+  })
+    }
+
+  });
+
+  el.click(); // open
+}
+
+
+function showKey(key) {
+    Toast.fire('your secret key is', key, "warning");
+}
+
+function showEcid(key) {
+    Toast.fire('your Encrypted CID is', key, "warning");
+}
+
+
+/*********************************************************************************************
+.) Network
+**********************************************************************************************/
+let switchAndaddNetwork = async (desiredChainId) => {
+
+	// if(desiredChainId ==0x13881){
+	if(desiredChainId ==0x4){
+console.log('adding chain')
+        addrinkebyTestnetNetwork()
+
+		// addPolygonTestnetNetwork()
+
+	} else {
+		try {
+console.log('switching chain')
+
+		await Moralis.switchNetwork(desiredChainId);
+	}
+  
+	catch (error) {
+	// alert(error.message);
+    Toast.fire( 'Error',error.message, "error");
+
+	}
+	}
+ 
+  }
+
+  let PolygonTestnetNetwork =  [0x13881, "Mumbai", "MATIC","MATIC", ["https://matic-mumbai.chainstacklabs.com" ,"https://rpc-mumbai.maticvigil.com", "https://matic-testnet-archive-rpc.bwarelabs.com "],"https://mumbai.polygonscan.com"];
+ 
+const addPolygonTestnetNetwork = async () => {
+    const chainId = 0x13881;
+    const chainName = "Mumbai";
+    const currencyName = "MATIC";
+    const currencySymbol = "MATIC";
+    const rpcUrl = "https://matic-mumbai.chainstacklabs.com ";
+    const blockExplorerUrl = "https://mumbai.polygonscan.com";
+    globalBlockExplorerUrl = "https://mumbai.polygonscan.com";
+    try {
+      await Moralis.addNetwork( chainId, chainName, currencyName, currencySymbol, rpcUrl, blockExplorerUrl );
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  const addPolygonNetwork = async () => {
+    const chainId = 0x89;
+    const chainName = "Polygon Mainnet";
+    const currencyName = "MATIC";
+    const currencySymbol = "MATIC";
+    const rpcUrl = "https://polygon-rpc.com";
+    const blockExplorerUrl = "https://polygonscan.com";
+     globalBlockExplorerUrl = "https://polygonscan.com";
+    try {
+      await Moralis.addNetwork( chainId, chainName, currencyName, currencySymbol, rpcUrl, blockExplorerUrl );
+    } catch (error) {
+      Toast.fire( 'Error',error.message, "error");
+
+    }
+  }
+
+  const addrinkebyTestnetNetwork = async () => {
+    const chainId = 0x4;
+    globalBlockExplorerUrl = "http://rinkeby.etherscan.io";
+   
+    try {
+		await Moralis.switchNetwork(chainId);
+	}
+  
+	catch (error) {
+      Toast.fire( 'Error',error.message, "error");
+
+    }
+  }
+
+  
+
+const switchNetwork = async (desiredChainId) => {
+  console.log('changing network started...');
+//   const desiredChainId = 43113; //avax fuji testnet
+//   const desiredChainId = 0x2a; //KOVAN
+ 
+	try {
+		await Moralis.switchNetwork(desiredChainId);
+	}
+  
+	catch (error) {
+	alert(error.message);
+	}
+	
+}
+
+
+Moralis.onChainChanged(function(chain) {
+  console.log('CHAIN CHANGED!: ',chain);
+  console.log('CHAIN CHANGED!: ',parseInt(chain, 16));
+  
+
+});
+
+
+
+/*********************************************************************************************
+.) MINT
+**********************************************************************************************/
+document.getElementById("btnUpdate").onclick = () => {
+	
+	document.getElementById('messages').innerHTML ='' ;
+	
+	if (!user) {
+		login();
+	
+
+		return
+	}
+	// console.log("logged in user:", user);
+	console.log("0- we start the minting process user: ", user);
+
+  // add loading
+  document.querySelector('#btnUpdate').innerHTML =` <span class="spinner-grow spinner-grow-sm"></span> Loading.. `;
+  btnUpdate.disabled = true;
+
+  
+
+
+	let n = 'Documentos OPPT';
+    let d = 'Accion OPPT';
+    let i = 'testimgs/iam.png';
+	let exturl ='';
+	let docs = Array.from(uploadedDocuments.children);
+    let attr = [];
+    docs.forEach(function(docs, index) {
+    let t =  docs.children[0].innerText;
+      let c = docs.children[1].textContent;
+    //   let e = docs.children[2].textContent;
+
+
+	  // make an object
+const myobject = { document: t, CID: c}
+// const myobject = { trackName: t, eCID: e}
+      attr.push(myobject);
+    //   attr.push(t,e);
+	});
+    console.log("docNames: ", attr);
+
+
+    // let draftId = currentDraft.id;
+    const uriMetadata = {
+		description: d,
+		external_url: exturl,
+		image: i,
+      name: n,
+      attributes: attr
+    }; //used to play the tracks from the server which has the distroId - trakcs keypairs
+ 	
+	console.log("1- Metadata is ready, now we try to UPLOAD TO IPFS ...",uriMetadata);
+    Toast.fire('mint info:', "UPLOADING TO IPFS", "info");
+
+
+
+	// ------------------------------------
+  // READ AND PROCESS INPUT SELECTOR
+  let tokenAddress = document.getElementById("tokenContractAddress").value;
+var split = tokenAddress.split(",");
+let desiredChainId = split[0];
+var tAddress = split[1];
+var tAbi = split[2];
+
+
+console.log('tAbi',tAbi);
+console.log('desiredChainId',desiredChainId);
+
+	 chainId =  Moralis.chainId;
+	console.log('chainId', chainId); // 
+    console.log('chainId: ',parseInt(chainId, 16));
+
+//check the global explorer is set to desired chain
+        if ( chainId = desiredChainId ) {
+            console.log('we are in the right chain')
+            addrinkebyTestnetNetwork()
+        }
+
+        if ( chainId != desiredChainId ) {
+            console.log('This is not the desired chain:',desiredChainId); 
+
+	fixedToast.fire({
+			icon: "warning",
+			confirmButtonText:"YES",
+			title: "Wrong network: " + `Please use ${desiredChainId}. Do you want to change it?` // title: dictionary[globalLang]["urlCopied"]
+		}).then((result) => {
+		if (result.isConfirmed) {
+			console.log(`CONFIRMED: we are changing or adding the chain to:  ${desiredChainId}`);
+			// switchNetwork(desiredChainId);
+			// addPolygonTestnetNetwork()
+			switchAndaddNetwork(desiredChainId)
+		}
+		
+	})
+
+	document.querySelector('#btnUpdate').innerHTML = 'Mint';
+  btnUpdate.disabled = false;
+
+		return;
+	}
+
+
+		mint(tAddress, tAbi, uriMetadata);
+
+
+}
+
+
+
+// ------------------------------------
+// MINT
+
+async function mint(tAddress, tAbi, uriMetadata) {
+	const nftFileMetadataFile = new Moralis.File("metadata.json", {
+      base64: btoa(JSON.stringify(uriMetadata))
+    });
+
+    await nftFileMetadataFile.saveIPFS();
+    const nftFileMetadataFilePath = nftFileMetadataFile.ipfs();
+    console.log("2-BRAVO!: url de metadata is ready on IPFS!: ", nftFileMetadataFilePath);
+    Toast.fire('2-BRAVO!: url de metadata is ready on IPFS!', nftFileMetadataFilePath, "info");
+setTimeout(() => {
+Toast.fire('Now we do the minting', 'make the transaction', "info");
+	
+}, 3000);
+
+// console.log("mint: ",tAddress, tAbi, uriInfo);
+
+if (tAbi == 'atached2marketrinkebyABI' ) { xAbi  = atached2marketrinkebyABI; customEventNumber = 1; fName = "createToken"; prms= " {tokenURI: nftFileMetadataFilePath}"}
+if (tAbi == 'attachedToMarketABI' ) { xAbi  = attachedToMarketABI; customEventNumber = 1; fName = "createToken"; prms= " {tokenURI: nftFileMetadataFilePath}"}
+if (tAbi == 'distroMintedMumbaiABi' ) { xAbi  = distroMintedMumbaiABi; customEventNumber = 1;fName = "createItem"; prms= " {uri: nftFileMetadataFilePath}" }
+if (tAbi == 'distroMintedABi' ) { xAbi  = distroMintedABi; customEventNumber = 1;fName = "createItem"; prms=   " {uri: nftFileMetadataFilePath}"}
+if (tAbi == 'nftMintedABI' ) { xAbi  = nftMintedABI; customEventNumber = 2; fName = "createItem"; prms=   " {uri: nftFileMetadataFilePath} "}
+
+
+const options = {
+    contractAddress: tAddress, //
+    functionName: fName,
+    abi: xAbi,
+    params: { tokenURI: nftFileMetadataFilePath}
+};
+ 
+const transaction = await Moralis.executeFunction(options);
+const tx = await transaction.wait();
+// const explorer = globalBlockExplorerUrl;
+console.log('tx: ',tx );
+
+// TRANSFER EVENT
+let transferEvent = tx.events[0];
+let tokenId =parseInt(transferEvent.args[2]._hex, 16);
+
+// CUSTOM EVENT
+let customEvent = tx.events[customEventNumber];
+let customEventName = customEvent.event;
+let tokenIdDM =parseInt(customEvent.args[0]._hex, 16);
+console.log('custom event name: ', customEventName);
+console.log('custom event token Id info: ', tokenIdDM);
+
+ 
+let printSuccessMintMessage = `<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Great!</strong> You minted token Id: ${tokenId}. Here is the <a href="${globalBlockExplorerUrl}/tx/${tx.transactionHash}">tx receipt link</a>. Check your new NFT <button class='btn btn-outline-primary' onclick="event.stopPropagation();loadMetadata('${chainId}','${tAddress}','${tokenIdDM}')">HERE</button>.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`;
+document.getElementById('headMessages').innerHTML +=printSuccessMintMessage ;
+
+// success
+document.querySelector('#btnUpdate').classList.replace('btn-primary', 'btn-success');
+document.querySelector('#btnUpdate').innerHTML =` <i class="fa-solid fa-circle-check"></i>`;
+
+	Swal.fire({
+        title: 'Bravo!',
+		text: `You minted Item Id ${tokenId} from contract ${tAddress} `,
+		icon: "success",
+          imageUrl: 'testimgs/undraw_winners_re_wr1l.svg',
+          imageWidth: 400,
+          imageHeight: 200,
+          imageAlt: 'well minted!',
+        
+      });
+
+
+}
+
+
+
+// .................................
+// NFT INTERACTIONS
+// .................................
+function playItem(cid, elem){
+console.log('trying to play: ',cid, elem, elem.children[0])
+
+if(	!elem.classList.contains('isPLaying')){
+
+	// reset all other buttons
+	var elems = document.querySelectorAll(".trackplayer");
+[].forEach.call(elems, function(el) {
+    // el.classList.remove("hover");
+	el.classList.remove('isPLaying');
+el.children[0].classList.replace('fa-pause','fa-play');
+el.classList.replace( 'btn-success','btn-outline-info');
+});
+
+// add class to this button
+elem.classList.add('isPLaying');
+elem.children[0].classList.remove('fa-play');
+elem.children[0].innerHTML =` <span class="spinner-grow spinner-grow-sm"></span>`;
+elem.children[0].disabled = true;
+ a.resetSong();
+  a.song = new Audio(cid);
+  console.log("reset cancion");
+  a.song.duration;
+  
+  a.song.onloadeddata = function () {
+	  var tt = a.song.duration;
+	  totalTime.innerHTML = formatTime(tt);
+	  console.log("audio created line 460");
+	  a.play();
+elem.children[0].innerHTML ='';
+elem.children[0].classList.add('fa-pause');
+elem.children[0].disabled = false;
+elem.classList.replace('btn-outline-info', 'btn-success');
+    // audio.addEventListener('canplaythrough', isAppLoaded, false);
+  }
+return
+} else {
+	a.pause();
+	elem.classList.remove('isPLaying');
+elem.children[0].classList.replace('fa-pause','fa-play');
+elem.classList.replace( 'btn-success','btn-outline-info');
+
+	return
+}
+
+
+
+}
+
+
+// GET METADATA
+
+async function loadMetadata(chainid, contract, id){
+  console.log('loading metadata: ', contract, id)
+
+  try {
+    // await Moralis.start({ serverUrl, appId });
+	const metadata = await Moralis.Plugins.covalent.getNftExternalMetadataForContract({
+    chainId: chainid,
+    contractAddress: contract,
+    tokenId: id
+});  
+console.log('METADATA: ',metadata)
+console.log('contract address: ',metadata.data.items[0].contract_address)
+console.log('is burned?: ',metadata.data.items[0].nft_data[0].burned)
+console.log('external data: ',metadata.data.items[0].nft_data[0].external_data)
+console.log('NAME: ',metadata.data.items[0].nft_data[0].external_data.name)
+// console.log('DESCRIPTION: ',metadata.data.items[0].nft_data[0].external_data.description)
+console.log('IMAGE: ',metadata.data.items[0].nft_data[0].external_data.image)
+console.log('ATTRIBUTES: ',metadata.data.items[0].nft_data[0].external_data.attributes)
+console.log('Tracks: ',metadata.data.items[0].nft_data[0].external_data.attributes)
+	}
+  
+	catch (error) {
+		Toast.fire('Wait a little longer please', error.message, "error");
+	}
+  
+
+}
+  
+// fin NFT interactions
+
+
+
+/*********************************************************************************************
+.) GET RANDOM NUMBER
+**********************************************************************************************/
+
+async function getRandomNumber() {
+addrinkebyTestnetNetwork()
+const sendOptions = {
+    contractAddress: '0xa618d8E3485280E53135AE50507aC94733793D13', //
+    functionName: 'requestRandomWords',
+    abi: VRFv2ABI
+};
+const transaction = await Moralis.executeFunction(sendOptions);
+const tx = await transaction.wait();
+// const explorer = globalBlockExplorerUrl;
+console.log('tx: ',tx.hash );
+ 
+let printSuccessMintMessage = `<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Your key was generated!</strong> Your Key number  for this NFT is ___. Here is the <a href="${globalBlockExplorerUrl}/tx/${tx.transactionHash}">tx receipt link</a>.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`;
+document.getElementById('headMessages').innerHTML +=printSuccessMintMessage ;
+
+
+const readOptions = {
+    contractAddress: '0xa618d8E3485280E53135AE50507aC94733793D13', //
+    functionName: 's_requestId',
+    // functionName: 's_randomWords',
+    abi: VRFv2ABI,
+};
+
+// Read new value
+const message = await Moralis.executeFunction(readOptions);
+console.log(message, message._hex );
+// --> "Hello Moralis"
+
+
+let printSuccessMintMessage2 = `<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Result:</strong> ${message._hex}.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`;
+document.getElementById('headMessages').innerHTML +=printSuccessMintMessage2 ;
+
+
+
+}
+
+
+async function displayRandomNumber() {
+addrinkebyTestnetNetwork()
+const readOptions = {
+    contractAddress: '0xa618d8E3485280E53135AE50507aC94733793D13', //
+    functionName: 's_requestId',
+    // functionName: 's_randomWords',
+    abi: VRFv2ABI,
+};
+
+// Read new value
+const message = await Moralis.executeFunction(readOptions);
+console.log(message, message._hex );
+// --> "Hello Moralis"
+
+
+let printSuccessMintMessage = `<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Result:</strong> ${message._hex}.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`;
+document.getElementById('headMessages').innerHTML +=printSuccessMintMessage ;
+
+
+}
+
+
+/*********************************************************************************************
+.) GET PRICES FUNCTIONS
+**********************************************************************************************/
+
+priceConversor = (mintingPrice, currency) => {
+  fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${currency}&vs_currencies=usd`).then(response => {
+    return response.json();
+  })
+    .then(data => {
+      let currencyValue = data[currency].usd;
+      console.log('currencyValue: ',currencyValue);
+      console.log('mintingPrice: ',mintingPrice);
+      let result = mintingPrice * currencyValue;
+      console.log('result: ', result);
+        let msg = "(aprox " + "$" + result + " USD)";
+        currencyConversor.innerHTML = msg;
+      },
+      error => {
+        console.log(error.message);
+      }
+    );
+
+};
+
+
+ 
+
+/*********************************************************************************************
+.) UI FORM
+**********************************************************************************************/
+
+// ADD TITLE,  if title input has changed, then show save draft button
+textCreateItemName.onchange = function() {
+  const title = textCreateItemName.value;
+  localStorage.setItem('title', title);
+  Toast.fire( 'Title updated','', "success");
+  console.log("title changed");
+
+//   updateDraft(currentDraft, "title", title);
+};
+ 
+
+// ADD IMG, if an image is loaded, then show save draft button
+fileCreateItemFile.onchange = function() {
+  console.log("img changed");
+
+  if (fileCreateItemFile.files.length == 1) {
+    nftDistroImg.src = window.URL.createObjectURL(this.files[0]);
+    uploadImg(this.files[0]); // upload to ipfs
+    // submit_mint.disabled = false; //activa el boton de minting
+  }
+};
+ 
+
+
+uploadImg = async img => {
+  const nftFile = new Moralis.File("nftFile.png", img);
+  await nftFile.saveIPFS(); // upload to ipfs
+  const nftFilePath = nftFile.ipfs();
+
+localStorage.setItem('image', nftFilePath);
+
+  console.log("image uploaded to ipfs: ", nftFilePath);
+};
+
+
+
+   // .................................
+   // AUTOFILL PARA TESTING!
+   // .................................
+
+//    document.getElementById('nftDistroImg').src = 'docs/oppt_logo.jpg';
+   document.getElementById('nftDistroImg').src = 'docs/LOGO-YO-SOY-OPPT.png';
+   
+    </script>
+  </body>
+</html>
