@@ -23,11 +23,11 @@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.all.min.js"></script>
 <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
 <script src="js/FileSaver.min.js"></script>
-<!-- <script onload='LitJsSdk.litJsSdkLoadedInALIT()' src="https://jscdn.litgateway.com/index.web.js"></script> -->
+<script onload='LitJsSdk.litJsSdkLoadedInALIT()' src="https://jscdn.litgateway.com/index.web.js"></script>
 
-<!-- 
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lit-access-control-conditions-modal-vanilla-js/dist/main.css"/>
-<script src="https://cdn.jsdelivr.net/npm/lit-access-control-conditions-modal-vanilla-js/dist/index.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/lit-access-control-conditions-modal-vanilla-js/dist/index.js"></script>
 
 	
 	<!-- <link rel="stylesheet" href="xplayer.css" /> -->
@@ -561,7 +561,41 @@ $(function() {
 		  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
 		  <script src="js/texteffects.js"></script>
 	<script src="js/player9.js"></script>
- 
+
+	<script>
+		function closeModal() {
+		  console.log("close share modal");
+		  ACCM.ReactContentRenderer.unmount(document.getElementById("shareModal"));
+		}
+		function openShareModal() {
+		  console.log("open share modal");
+		  ACCM.ReactContentRenderer.render(
+			ACCM.ShareModal,
+			// props to be passed to the ShareModal component.  These are documented here: https://github.com/LIT-Protocol/lit-access-control-conditions-modal#props
+			{
+			  sharingItems: [],
+			  onAccessControlConditionsSelected: function (accessControlConditions) {
+				console.log(
+				  "accessControlConditions from ShareModal: ",
+				  accessControlConditions
+				);
+				closeModal();
+				// now, use the accessControlConditions to provision access using one of the methods below:
+				// https://github.com/LIT-Protocol/lit-js-sdk#dynamic-content---provisoning-access-to-a-resource
+				// or https://github.com/LIT-Protocol/lit-js-sdk#static-content---storing-any-static-content-and-manually-storing-the-metadata
+			  },
+			  onClose: closeModal,
+			  getSharingLink: function (sharingItem) {
+				console.log("getSharingLink", sharingItem);
+				return "";
+			  },
+			  showStep: "ableToAccess",
+			},
+			// target DOM node
+			document.getElementById("shareModal")
+		  );
+		}
+	  </script>
 	  
 
     <script>
@@ -3152,7 +3186,7 @@ let name = data.name.replace(/&/g, "Y");// quickfix
 // file = e.target.files[0];
 
 if(data.size > 1024*1024){
-	alert('THIS IS A TEST DRAFT. Please choose files smaller than 1mb, otherwise you may crash your browser. \nThis is a known issue. See the tutorial.');
+	alert('Please choose files smaller than 1mb, otherwise you may crash your browser. \nThis is a known issue. See the tutorial.');
 	return;
 }
 
@@ -3163,46 +3197,48 @@ var fileToSave = new Blob([JSON.stringify(data)], {
     // type: 'application/json'
 });
 
+		const testName = "EncryptDecrypt";
+		document.getElementById("messages").innerText = `Testing ${testName}...`;
+		const authSig = await LitJsSdk.checkAndSignAuthMessage({
+			chain: 'rinkeby',
 
-		// const testName = "EncryptDecrypt";
-		// document.getElementById("messages").innerText = `Testing ${testName}...`;
-		// const authSig = await LitJsSdk.checkAndSignAuthMessage({
-		// 	chain: 'rinkeby',
-
-		// });
-		// const accessControlConditions = [
-		// {
-		// contractAddress: "",
-		// standardContractType: "",
-		// chain: 'rinkeby',
-		// method: "eth_getBalance",
-		// parameters: [":userAddress", "latest"],
-		// returnValueTest: {
-		// 	comparator: ">=",
-		// 	value: "10000000000000",
-		// },
-		// },
-		// ];
+		});
+		const accessControlConditions = [
+		{
+		contractAddress: "",
+		standardContractType: "",
+		chain: 'rinkeby',
+		method: "eth_getBalance",
+		parameters: [":userAddress", "latest"],
+		returnValueTest: {
+			comparator: ">=",
+			value: "10000000000000",
+		},
+		},
+		];
 
 
-        // document.getElementById(
-        //   "humanized"
-        // ).innerText = `Humanized: ${await LitJsSdk.humanizeAccessControlConditions(
-        //   { accessControlConditions }
-        // )}`;
+        document.getElementById(
+          "humanized"
+        ).innerText = `Humanized: ${await LitJsSdk.humanizeAccessControlConditions(
+          { accessControlConditions }
+        )}`;
 
-        // const { encryptedZip, symmetricKey } =
-        //   await LitJsSdk.zipAndEncryptString("this is a secret message");
+        const { encryptedZip, symmetricKey } =
+          await LitJsSdk.zipAndEncryptString("this is a secret message");
 
-        // const encryptedSymmetricKey = await litNodeClient.saveEncryptionKey({
-        //   accessControlConditions,
-        //   symmetricKey,
-        //   authSig,
-        //   chain,
-        // });
+        const encryptedSymmetricKey = await litNodeClient.saveEncryptionKey({
+          accessControlConditions,
+          symmetricKey,
+          authSig,
+          chain,
+        });
 
-        // console.log("encrypted symmetric key", encryptedSymmetricKey);
+        console.log("encrypted symmetric key", encryptedSymmetricKey);
 
+// const { encryptedString, symmetricKey } = await LitJsSdk.encryptString(fileToSave);
+// const { encryptedString, symmetricKey } = await LitJsSdk.encryptString('fileToSave');
+// console.log({ encryptedString, symmetricKey });
 
 const added = await file.saveIPFS();
 const imageHash = file.hash();
