@@ -19,11 +19,16 @@
 	<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/reorder-rows/bootstrap-table-reorder-rows.min.js"></script>
 	<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/print/bootstrap-table-print.min.js"></script>
 	
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script> -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.all.min.js"></script>
 <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
 <script src="js/FileSaver.min.js"></script>
- 
+<script onload='LitJsSdk.litJsSdkLoadedInALIT()' src="https://jscdn.litgateway.com/index.web.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lit-access-control-conditions-modal-vanilla-js/dist/main.css"/>
+<script src="https://cdn.jsdelivr.net/npm/lit-access-control-conditions-modal-vanilla-js/dist/index.js"></script>
+
 	
 	<!-- <link rel="stylesheet" href="xplayer.css" /> -->
 <style>
@@ -415,15 +420,24 @@ $(function() {
 
 
 <div id="messages"> </div>
+<div id="humanized"> </div>
 
 
 <div id="historial">
-    <button type="button" class="btn btn-outline-primary   px-3" onclick="event.stopPropagation();getRandomNumber()">
+
+	<h3>0 - Generate a key(VRF)
+<button type="button" class="btn btn-outline-primary  "  onclick="event.stopPropagation();getRandomNumber()" ><i class="fa-solid fa-plus" aria-hidden="true"></i> Generate Key</button>
+
+    <button type="button" class="btn btn-outline-primary px-3" onclick="event.stopPropagation();getRandomNumber()">
         <i class="fa-solid fa-key-skeleton"></i>Get a Random Number</button> 
+			</h3>
 
-
-        <button type="button" class="btn btn-outline-primary   px-3" onclick="event.stopPropagation();displayRandomNumber()">
-            <i class="fa-solid fa-key-skeleton"></i>Display your Random Number</button> 
+			<div id="keys">
+				<p class="key"><i class="fa-solid fa-key-skeleton"></i>qfjisjfiwjfiosdjfisjdfojsidjfisjdiojfids</p>
+			</div>
+<!-- 
+        <button type="button" class="btn btn-outline-primary px-3" onclick="event.stopPropagation();displayRandomNumber()">
+            <i class="fa-solid fa-key-skeleton"></i>Display your Random Number</button>  -->
 
 
     <h3>1 -Add your new tracks
@@ -539,8 +553,8 @@ $(function() {
 
 
 		  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-		  <!-- <script src="js/texteffects.js"></script> -->
-	<!-- <script src="js/player9.js"></script> -->
+		  <script src="js/texteffects.js"></script>
+	<script src="js/player9.js"></script>
 
 
 
@@ -3055,28 +3069,30 @@ $(document).ready( function() {
  
 
  
+// encryption
+function litJsSdkLoaded(){
+  var litNodeClient = new LitJsSdk.LitNodeClient()
+  litNodeClient.connect()
+  window.litNodeClient = litNodeClient
+}
 
 
 
+
+// UPLOAD TRACK
 uploadPDF = async pdf => {
 // let user;
 	if (!user) { 
-
-// let printLoginFirst = `    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-//                     <strong>Login </strong> First!
-//                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-//                       <span aria-hidden="true">&times;</span>
-//                     </button>
-//                   </div>`;
-// 	document.getElementById('headModal').innerHTML +=printLoginFirst ;
-    
+Toast.fire( 'Login and try again','', "info");
+		
     login();
-
   return
  }
  if (user) {
 	 console.log('user.id:' , user.id)
 	  userKey = user.id;
+	 
+
  } 
 
     if(!taskInput.value){
@@ -3120,15 +3136,135 @@ submit_button.disabled = true;
 const title = taskInput.value
 const data = input_image.files[0]
 let name = data.name.replace(/&/g, "Y");// quickfix
+
+// encrypt
+// 1- encryopt object
+// const authSig = await LitJsSdk.checkAndSignAuthMessage({chain: 'rinkeby'})
+//  const authSig = await LitJsSdk.checkAndSignAuthMessage({chain: 'ethereum'})
+// console.log('data: ',authSig)
+
 const file = new Moralis.File(name, data)
+
+// ------
+
+// var EncryptDecrypt = async () => {
+//         const testName = "EncryptDecrypt";
+//         document.getElementById("status").innerText = `Testing ${testName}...`;
+//         const authSig = await LitJsSdk.checkAndSignAuthMessage({
+//           chain,
+//         });
+//         const accessControlConditions = [
+//           {
+//             contractAddress: "",
+//             standardContractType: "",
+//             chain,
+//             method: "eth_getBalance",
+//             parameters: [":userAddress", "latest"],
+//             returnValueTest: {
+//               comparator: ">=",
+//               value: "10000000000000",
+//             },
+//           },
+//         ];
+
+//         document.getElementById(
+//           "humanized"
+//         ).innerText = `Humanized: ${await LitJsSdk.humanizeAccessControlConditions(
+//           { accessControlConditions }
+//         )}`;
+
+//         const { encryptedZip, symmetricKey } =
+//           await LitJsSdk.zipAndEncryptString("this is a secret message");
+
+//         const encryptedSymmetricKey = await litNodeClient.saveEncryptionKey({
+//           accessControlConditions,
+//           symmetricKey,
+//           authSig,
+//           chain,
+//         });
+
+//         console.log("encrypted symmetric key", encryptedSymmetricKey);
+
+//         const retrievedSymmKey = await litNodeClient.getEncryptionKey({
+//           accessControlConditions,
+//           toDecrypt: LitJsSdk.uint8arrayToString(
+//             encryptedSymmetricKey,
+//             "base16"
+//           ),
+//           chain,
+//           authSig,
+//         });
+
+//         const decryptedFiles = await LitJsSdk.decryptZip(
+//           encryptedZip,
+//           retrievedSymmKey
+//         );
+//         const decryptedString = await decryptedFiles["string.txt"].async(
+//           "text"
+//         );
+//         console.log("decrypted string", decryptedString);
+
+//         document.getElementById(
+//           "status"
+//         ).innerText = `${testName}: Success.  Decrypted string is: ${decryptedString}`;
+//       };
+// --------
+// Create a blob of the data
+var fileToSave = new Blob([JSON.stringify(data)], {
+    // type: 'application/json'
+});
+
+		const testName = "EncryptDecrypt";
+		document.getElementById("messages").innerText = `Testing ${testName}...`;
+		const authSig = await LitJsSdk.checkAndSignAuthMessage({
+			chain: 'rinkeby',
+
+		});
+		const accessControlConditions = [
+		{
+		contractAddress: "",
+		standardContractType: "",
+		chain: 'rinkeby',
+		method: "eth_getBalance",
+		parameters: [":userAddress", "latest"],
+		returnValueTest: {
+			comparator: ">=",
+			value: "10000000000000",
+		},
+		},
+		];
+
+
+        document.getElementById(
+          "humanized"
+        ).innerText = `Humanized: ${await LitJsSdk.humanizeAccessControlConditions(
+          { accessControlConditions }
+        )}`;
+
+        const { encryptedZip, symmetricKey } =
+          await LitJsSdk.zipAndEncryptString("this is a secret message");
+
+        const encryptedSymmetricKey = await litNodeClient.saveEncryptionKey({
+          accessControlConditions,
+          symmetricKey,
+          authSig,
+          chain,
+        });
+
+        console.log("encrypted symmetric key", encryptedSymmetricKey);
+
+// const { encryptedString, symmetricKey } = await LitJsSdk.encryptString(fileToSave);
+// const { encryptedString, symmetricKey } = await LitJsSdk.encryptString('fileToSave');
+// console.log({ encryptedString, symmetricKey });
+
 const added = await file.saveIPFS();
 const imageHash = file.hash();
 let ipfsLink =  "ipfs://" + imageHash;
 
 
 // encrypt CID with user's key
-let encryptionKey = userKey
-var encryptedCID = CryptoJS.AES.encrypt(imageHash, encryptionKey).toString(); 
+// let encryptionKey = userKey
+// var encryptedCID = CryptoJS.AES.encrypt(imageHash, encryptionKey).toString(); 
 
 // save to server
 // file.save().then(function() {
@@ -3180,6 +3316,8 @@ document.querySelector('#submit_button').innerHTML =` Upload `;
   document.querySelector('#submit_button').classList.replace('btn-success', 'btn-primary');
   document.querySelector('#new-task').style.display= 'block';
 document.querySelector(".input-group").style.display= 'flex';
+document.querySelector('#success_message').style.display= 'none';
+
   
 }, 10000);
 
@@ -3224,6 +3362,14 @@ if (loadDesc) {
 	descriptionTextarea.value = loadDesc
 }
 
+
+let loadKey =window.localStorage.getItem('key')
+if (loadKey) {
+	keys.innerHTML = `<p class='key'>${loadKey}</p> <button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();deleteItem((this.parentElement))"><i class="fas fa-trash" aria-hidden="true"></i></button>`
+
+}
+
+
 // let loadPrice  = JSON.parse(window.localStorage.getItem('price'));
 
 // if (loadPrice) {
@@ -3252,26 +3398,7 @@ function addCidToHistory(title, cid){
  
 	// let link = 'https://ipfs.io/ipfs/'+cid;
 	let link = 'https://ipfs.moralis.io:2053/ipfs/'+cid;
-// let link =  "ipfs://" + cid;
 
-// let element =`<tr>
-// 	<td class="d-print-block"><label>${title}</label>
-// <input class='d-print-none' type="text" autofocus> <button type="button" class="btn  px-3  d-print-none" onclick="event.stopPropagation();editItem(this)" ><i class="fas fa-edit" aria-hidden="true"></i></button>
-// </td>
-// <td> ${cid} </td>
-// <td> <p class="d-none d-print-block" style=""  >${ecid}</p><button type="button" class="d-print-none btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();showEcid('${ecid}')"><i class="fas fa-eye" aria-hidden="true"></i></button> </td>
-// <td> <p class="d-none d-print-block" style=""   >${key}</p><button type="button" class="d-print-none btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();showKey('${key}')"><i class="fas fa-key" aria-hidden="true"></i></button> </td>
-// <td>
-// 	<button type="button" class="trackplayer btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();playItem('${link}',(this))" ><i class="fas fa-play" aria-hidden="true"></i></button> 
-// 	<button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();copyItem('${cid}')"><i class="fas fa-clipboard" aria-hidden="true"></i></button> 
-// 	<button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();deleteItem((this.parentElement))"><i class="fas fa-trash" aria-hidden="true"></i></button>
-// 	</td>
-// 	</tr>`;
-	// <a class="btn btn-outline-info waves-effect px-3" data-song href="${link}"><i class="fas fa-play" aria-hidden="true"></i></a>
-	// <i class="fas fa-key"></i>
-// <td> <p class="d-none d-print-block"   >${key}</p><button type="button" class="d-print-none btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();showKey('${key}')"><i class="fas fa-key" aria-hidden="true"></i></button> </td>
-
-//   uploadedDocuments.innerHTML += element;
 var $table = $('#table')
 
 function randomData() {
@@ -3313,6 +3440,8 @@ function add2Table(x) {
 	let t = x.title
 	let c = x.cid
 
+	let link = 'https://ipfs.moralis.io:2053/ipfs/'+c;
+
 
 // $table.bootstrapTable('append', randomData(title,cid))
 // }
@@ -3326,7 +3455,7 @@ function add2Table(x) {
         title: `<label>${t}</label>`,
         cid:` ${c}`,
         actions: `
-        <button type="button" class="trackplayer btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();playItem('',(this))" ><i class="fas fa-play" aria-hidden="true"></i></button> 
+        <button type="button" class="trackplayer btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();playItem('${link}',(this))" ><i class="fas fa-play" aria-hidden="true"></i></button> 
 	<button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();copyItem('${c}')"><i class="fas fa-clipboard" aria-hidden="true"></i></button> 
 	<button type="button" class="btn btn-outline-info waves-effect px-3" onclick="event.stopPropagation();deleteItem((this.parentElement))"><i class="fas fa-trash" aria-hidden="true"></i></button>`
       })
@@ -3355,6 +3484,15 @@ console.log(title,cid);//agrega a la UI
 }
 
 
+function deleteItem(key) {
+
+console.log("Delete KEY...",obj);
+var listItem = obj.parentNode;
+var ul = listItem.parentNode;
+ul.removeChild(listItem);
+updateArray();
+
+}
 
 function deleteItem(obj) {
 
@@ -3654,14 +3792,14 @@ Moralis.onChainChanged(function(chain) {
 /*********************************************************************************************
 .) MINT
 **********************************************************************************************/
+
+
 document.getElementById("btnUpdate").onclick = () => {
 	
 	document.getElementById('messages').innerHTML ='' ;
 	
 	if (!user) {
 		login();
-	
-
 		return
 	}
 	// console.log("logged in user:", user);
@@ -3670,10 +3808,7 @@ document.getElementById("btnUpdate").onclick = () => {
   // add loading
   document.querySelector('#btnUpdate').innerHTML =` <span class="spinner-grow spinner-grow-sm"></span> Loading.. `;
   btnUpdate.disabled = true;
-
   
-
-
 	let n = 'Documentos OPPT';
     let d = 'Accion OPPT';
     let i = 'testimgs/iam.png';
@@ -3838,6 +3973,7 @@ document.querySelector('#btnUpdate').innerHTML =` <i class="fa-solid fa-circle-c
 // .................................
 // NFT INTERACTIONS
 // .................................
+// var a;
 function playItem(cid, elem){
 console.log('trying to play: ',cid, elem, elem.children[0])
 
@@ -3864,7 +4000,7 @@ elem.children[0].disabled = true;
   
   a.song.onloadeddata = function () {
 	  var tt = a.song.duration;
-	  totalTime.innerHTML = formatTime(tt);
+	//   totalTime.innerHTML = formatTime(tt);
 	  console.log("audio created line 460");
 	  a.play();
 elem.children[0].innerHTML ='';
@@ -3958,6 +4094,10 @@ console.log(message, message._hex );
 let printSuccessMintMessage2 = `<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Result:</strong> ${message._hex}.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`;
 document.getElementById('headMessages').innerHTML +=printSuccessMintMessage2 ;
 
+// display key in UI
+keys.innerHTML = `<p>${message._hex }</p>`
+localStorage.setItem("key", message._hex);
+Toast.fire( 'Key updated','', "success");
 
 
 }
@@ -3980,6 +4120,10 @@ console.log(message, message._hex );
 
 let printSuccessMintMessage = `<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Result:</strong> ${message._hex}.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`;
 document.getElementById('headMessages').innerHTML +=printSuccessMintMessage ;
+
+keys.innerHTML = `<p>${message._hex }</p>`
+localStorage.setItem("key", message._hex);
+Toast.fire( 'Key updated','', "success");
 
 
 }
